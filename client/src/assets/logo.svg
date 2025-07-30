@@ -1,0 +1,24 @@
+<svg width="180" height="50" viewBox="0 0 180 50" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat, sans-serif">
+  <defs>
+    <linearGradient id="purplePinkGradient3" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" style="stop-color:#A755F7;" />
+        <stop offset="100%" style="stop-color:#EC4899;" />
+    </linearGradient>
+    <filter id="fastGlow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+    </filter>
+  </defs>
+
+  <g transform="translate(25, 25) scale(0.4)">
+    <g fill="url(#purplePinkGradient3)" filter="url(fastGlow)">
+      <circle cx="0" cy="0" r="15" />
+
+      <path d="M 25 0 A 25 25 0 0 1 35.35 14.64 L 42.42 21.21 A 40 40 0 0 0 40 0 Z"/>
+      <path d="M -25 -25 A 35.35 35.35 0 0 1 -12 -33 L -5 -40 A 50 50 0 0 0 -35.35 -35.35 Z"/>
+      <path d="M 20 -35 A 40.3 40.3 0 0 1 38 -15 L 45 -10 A 50 50 0 0 0 25 -43.3 Z"/>
+      <path d="M -10 30 A 31.6 31.6 0 0 1 10 30 L 12 38 A 45 45 0 0 0 -12 38 Z"/>
+    </g>
+  </g>
+
+  <text x="55" y="32" font-size="24" font-weight="700" fill="#444" letter-spacing="0.5">busy<tspan fill="url(#purplePinkGradient3)">bot</tspan></text>
+</svg>
