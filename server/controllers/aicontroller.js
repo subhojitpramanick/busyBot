@@ -109,13 +109,16 @@ export const generateBlogTitle = async (req, res) => {
 };
 
 export const generateImage = async (req, res) => {
+  console.log("--- generateImage function was called ---");
+
   try {
     const { userId } = req.auth();
     const { prompt, publish } = req.body;
     const plan = req.plan;
-    console.log("Checking user plan. Plan is:", plan);
+    console.log("User plan is:", plan);
 
     if (plan !== "premium") {
+      console.log("User does not have premium plan. Returning early.");
       return res.json({
         success: false,
         message:
@@ -125,6 +128,8 @@ export const generateImage = async (req, res) => {
 
     const formData = new FormData();
     formData.append("prompt", prompt);
+
+    console.log("Preparing to call ClipDrop API...");
 
     const response = await axios.post(
       "https://clipdrop-api.co/text-to-image/v1",
@@ -138,9 +143,11 @@ export const generateImage = async (req, res) => {
       }
     );
 
+    console.log("Successfully received response from ClipDrop API.");
+
     const data = response.data;
-    // Validate that data is a buffer and not empty
     if (!data || !Buffer.isBuffer(data) || data.length < 100) {
+      console.log("Invalid image data received from ClipDrop API.");
       return res.json({
         success: false,
         message: "Invalid image data from API",
@@ -151,7 +158,6 @@ export const generateImage = async (req, res) => {
       "base64"
     )}`;
 
-    // Try uploading to Cloudinary
     let secure_url;
     try {
       const uploadResult = await cloudinary.uploader.upload(base64Image, {
@@ -159,6 +165,7 @@ export const generateImage = async (req, res) => {
       });
       secure_url = uploadResult.secure_url;
     } catch (cloudErr) {
+      console.log("Cloudinary upload failed:", cloudErr);
       return res.json({
         success: false,
         message: "Cloudinary upload failed: " + cloudErr.message,
@@ -174,8 +181,22 @@ export const generateImage = async (req, res) => {
       content: secure_url,
     });
   } catch (error) {
-    console.log("Error generating image:", error);
-    res.json({ success: false, message: error.message });
+    console.error("--- ERROR IN generateImage CATCH BLOCK ---");
+    if (error.response) {
+      // The API responded with an error status code (4xx or 5xx)
+      console.error("API Error Status:", error.response.status);
+      console.error("API Error Data:", error.response.data.toString());
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error("No response received from API.");
+    } else {
+      // Something else happened
+      console.error("Error Message:", error.message);
+    }
+    res.json({
+      success: false,
+      message: "An error occurred during image generation.",
+    });
   }
 };
 
