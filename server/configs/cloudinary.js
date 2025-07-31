@@ -3,7 +3,10 @@ import { v2 as cloudinary } from "cloudinary";
 const conectCloudinary = () => {
   // --- Start of new logging code ---
   console.log("--- Attempting to configure Cloudinary ---");
-  console.log("Found CLOUDINARY_CLOUD_NAME:", process.env.dvcf532au);
+  console.log(
+    "Found CLOUDINARY_CLOUD_NAME:",
+    process.env.VITE_ClOUDINARY_CLOUD_NAME
+  );
   console.log("Found CLOUDINARY_API_KEY:", process.env.CLOUDINARY_API_KEY);
   console.log(
     "Found CLOUDINARY_API_SECRET:",
@@ -12,7 +15,7 @@ const conectCloudinary = () => {
   // --- End of new logging code ---
 
   cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    cloud_name: "dvcf532au",
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
