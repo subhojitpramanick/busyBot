@@ -8,10 +8,18 @@ import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 
-await conectCloudinary();
+// We removed `await conectCloudinary()` from here.
 
 app.use(cors());
 app.use(express.json());
+
+// ** NEW **: Add this middleware to connect Cloudinary before your routes.
+// This will run for every incoming request.
+app.use((req, res, next) => {
+  conectCloudinary();
+  next();
+});
+
 app.use(clerkMiddleware());
 
 app.get("/", (req, res) => {
