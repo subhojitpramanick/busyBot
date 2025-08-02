@@ -134,6 +134,3 @@ busybot/
 
 Contributions are welcome! Please feel free to open issues or submit pull requests.
 
-## License
-
-[Specify your license here, e.g., MIT License]
